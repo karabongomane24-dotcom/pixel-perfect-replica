@@ -67,7 +67,7 @@ export async function summarizeMeeting(i: MeetingInput, _p: PromptSpec, r: Refin
     const d = l.match(DEADLINE);
     return { action: cap(trimEnd(l)), owner: owner && !/^(We|The|This|It|They|Need)$/.test(owner) ? owner : "⚠ Unassigned", deadline: d ? cap(d[2]) : "⚠ Not set", status: "Open" };
   });
-  const risks = lines.filter((l) => /risk|concern|block|delay|issue|worried|tight/i.test(l));
+  const risks = lines.filter((l) => /risk|concern|block|delay|issue|worried|tight/i.test(l) && !decisions.includes(l));
   const questions = lines.filter((l) => /\?|unclear|tbd|unknown|not sure/i.test(l));
   const words = i.notes.toLowerCase().match(/\b[a-z]{5,}\b/g) ?? [];
   const stop = new Set(["about", "there", "their", "which", "would", "should", "could", "agreed", "decided", "meeting", "will", "needs", "going", "think"]);
