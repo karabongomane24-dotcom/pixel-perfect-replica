@@ -47,7 +47,7 @@ function MeetingsPage() {
   const set = <K extends keyof MeetingInput>(k: K) => (v: MeetingInput[K]) => setF({ ...f, [k]: v });
   const g = useGeneration("meeting", (r) => summarizeMeeting(f, buildMeetingPrompt(f, r), r), (r) => ({ title: `${f.type}: ${r.topics.slice(0, 2).join(", ") || "Summary"}`, preview: r.summary, content: toText(r) }));
   const run = (r: "shorter" | null = null) => {
-    if (f.notes.trim().length < 20) return toast.error("Paste a bit more of your meeting notes first.");
+    if (f.notes.trim().length < 20) { toast.error("Paste a bit more of your meeting notes first."); return; }
     g.generate(r);
   };
   const r = g.result;

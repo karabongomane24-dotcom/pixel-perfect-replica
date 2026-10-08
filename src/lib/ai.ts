@@ -4,8 +4,8 @@ import type { EmailInput, MeetingInput, ResearchInput, Refinement, PromptSpec } 
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const sentences = (t: string) => t.replace(/\n+/g, ". ").split(/(?<=[.!?])\s+|\.\s/).map((s) => s.trim().replace(/^[-*•\d.)\s]+/, "")).filter((s) => s.length > 3);
-const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-const trimEnd = (s: string) => s.replace(/[.\s]+$/, "");
+const cap = (s = "") => s.charAt(0).toUpperCase() + s.slice(1);
+const trimEnd = (s = "") => s.replace(/[.\s]+$/, "");
 
 export type EmailResult = { subject: string; greeting: string; body: string[]; cta: string; signoff: string };
 export type ActionItem = { action: string; owner: string; deadline: string; status: string };
@@ -44,7 +44,7 @@ export async function generateEmail(i: EmailInput, _p: PromptSpec, r: Refinement
   const cta = i.cta ? `Could you please ${trimEnd(i.cta.charAt(0).toLowerCase() + i.cta.slice(1))}?` : "Please let me know your thoughts at your earliest convenience.";
   const g = greetings[i.audience] ?? "Hello";
   return {
-    subject: cap(purpose.split(/[,.]/)[0].slice(0, 70)),
+    subject: cap((purpose.split(/[,.]/)[0] ?? "").slice(0, 70)),
     greeting: g.includes("team") ? `${g},` : `${g} [Name],`,
     body,
     cta,

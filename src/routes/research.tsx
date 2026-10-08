@@ -38,7 +38,7 @@ function ResearchPage() {
   const set = <K extends keyof ResearchInput>(k: K) => (v: ResearchInput[K]) => setF({ ...f, [k]: v });
   const g = useGeneration("research", (r) => analyzeResearch(f, buildResearchPrompt(f, r), r), (r) => ({ title: f.topic.slice(0, 70), preview: r.takeaway, content: toText(r) }));
   const run = (r: "simplify" | "expand" | null = null) => {
-    if (!f.topic.trim()) return toast.error("Enter a topic, question or article to analyze.");
+    if (!f.topic.trim()) { toast.error("Enter a topic, question or article to analyze."); return; }
     g.generate(r);
   };
   const r = g.result;

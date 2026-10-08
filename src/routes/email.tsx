@@ -40,7 +40,7 @@ function EmailPage() {
   const g = useGeneration("email", (r) => generateEmail(f, buildEmailPrompt(f, r), r), (r) => ({ title: r.subject, preview: r.body.join(" ").slice(0, 140), content: toText(r) }));
 
   const run = (r: Parameters<typeof g.generate>[0] = null) => {
-    if (!f.purpose.trim()) return toast.error("Tell me what the email should communicate.");
+    if (!f.purpose.trim()) { toast.error("Tell me what the email should communicate."); return; }
     setEditing(false); g.generate(r);
   };
 
