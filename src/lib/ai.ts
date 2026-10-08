@@ -36,7 +36,8 @@ export async function generateEmail(i: EmailInput, _p: PromptSpec, r: Refinement
   const purpose = trimEnd(i.purpose);
   const ctx = sentences(i.context);
   const body: string[] = [];
-  if (toneOpen[tone]) body.push(toneOpen[tone]);
+  const open = toneOpen[tone];
+  if (open) body.push(open);
   body.push(`I'm reaching out to ${purpose.charAt(0).toLowerCase() + purpose.slice(1)}.`);
   const len = r === "shorter" ? "Short" : i.length;
   if (ctx.length && len !== "Short") body.push(ctx.slice(0, len === "Detailed" ? 4 : 2).map((s) => trimEnd(s) + ".").join(" "));
